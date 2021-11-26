@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/kodylow/golang-bookings/pkg/config"
-	"github.com/kodylow/golang-bookings/pkg/models"
-	"github.com/kodylow/golang-bookings/pkg/render"
+	"github.com/kodylow/golang-bookings/internal/config"
+	"github.com/kodylow/golang-bookings/internal/models"
+	"github.com/kodylow/golang-bookings/internal/render"
 )
 
 // Repo the repository used by the handlers
