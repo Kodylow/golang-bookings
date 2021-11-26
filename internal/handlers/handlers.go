@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/kodylow/golang-bookings/internal/config"
+	"github.com/kodylow/golang-bookings/internal/forms"
 	"github.com/kodylow/golang-bookings/internal/models"
 	"github.com/kodylow/golang-bookings/internal/render"
 )
@@ -56,9 +57,21 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 // Reservation renders the make a reservation page and displays form
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	})
 }
 
+// PostReservation handles posting of a reservation form
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	
+}
 // Generals renders the room page
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "generals.page.tmpl", &models.TemplateData{})
