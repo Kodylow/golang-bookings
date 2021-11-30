@@ -10,18 +10,18 @@ import (
 
 var app *config.AppConfig
 
-//NewHelpers sets up app config for helpers
+// NewHelpers sets up app config for helpers
 func NewHelpers(a *config.AppConfig) {
 	app = a
 }
 
-//ClientError logs and writes errors by the client
+//ClientError throws an error when client screws up
 func ClientError(w http.ResponseWriter, status int) {
 	app.InfoLog.Println("Client error with status of", status)
 	http.Error(w, http.StatusText(status), status)
 }
 
-//ServerError logs and writes errors by the server
+//ServerError throws an error when server screws up
 func ServerError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
 	app.ErrorLog.Println(trace)
