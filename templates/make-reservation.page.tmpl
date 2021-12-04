@@ -4,8 +4,6 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      {{$res := index .Data "reservation"}}
-
       <h1>Make a Reservation</h1>
       <p>
         <strong>Reservation Details</strong><br />
@@ -17,7 +15,11 @@
       <form action="/make-reservation" method="post" class="" novalidate>
         <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
         <input type="hidden" name="start_date" value="{{index .StringMap "start_date"
+
+
         }}"> <input type="hidden" name="end_date" value="{{index .StringMap "end_date"
+
+
         }}">
         <input type="hidden" name="room_id" value="{{ $res.RoomID }}" />
 
@@ -66,7 +68,7 @@
         </div>
 
         <hr />
-        <input type="submit" class="btn btn-primary" value="Make Reservation" />
+        <input type="submit" class="btn btn-primary" value="Save" />
       </form>
     </div>
   </div>

@@ -533,10 +533,32 @@ func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request
 	})
 }
 
-//AdminShowReservation does
+//AdminShowReservation shows a reservation by id
 func (m *Repository) AdminShowReservation(w http.ResponseWriter, r *http.Request) {
+	exploded := strings.Split(r.RequestURI, "/")
+	id, err := strconv.Atoi(exploded[4])
+	if err != nil {
+		helpers.ServerError(w, err)
+	}
 
-	render.Template(w, r, "admin-reservations-show.page.tmpl", &models.TemplateData{})
+	src := exploded[3]
+	stringMap := make(map[string]string)
+	stringMap["src"] = src
+
+	res, err := m.DB.GetReservationByID(id)
+	if err != nil {
+		helpers.ServerError(w, err)
+	}
+
+	data := make(map[string]interface{})
+
+	data["reservation"] = res
+
+	render.Template(w, r, "admin-reservations-show.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+		Data: data,
+		Form: forms.New(nil),
+	})
 }
 
 //AdminReservationsCalendar handles showing a dashboard after an admin user logs in
