@@ -192,10 +192,10 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 	//send email notification to guest
 	msg := models.MailData{
-		To:				reservation.Email,
-		From: 		"me@here.com",
-		Subject:  "Reservation Confirmation",
-		Content:	htmlMessage,
+		To:      reservation.Email,
+		From:    "me@here.com",
+		Subject: "Reservation Confirmation",
+		Content: htmlMessage,
 	}
 
 	m.App.MailChan <- msg
@@ -204,10 +204,10 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 
 	//send email notification to guest
 	msg = models.MailData{
-		To:				"me@here.com",
-		From: 		"me@here.com",
-		Subject:  "Reservation Notification",
-		Content:	htmlMessage,
+		To:      "me@here.com",
+		From:    "me@here.com",
+		Subject: "Reservation Notification",
+		Content: htmlMessage,
 	}
 
 	m.App.MailChan <- msg
@@ -471,7 +471,7 @@ func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
 	form.IsEmail("email")
 	if !form.Valid() {
 		render.Template(w, r, "login.page.tmpl", &models.TemplateData{
-			Form: form, 
+			Form: form,
 		})
 		return
 	}
@@ -501,12 +501,23 @@ func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{})
 }
 
-//AdminNewReservations handles showing a dashboard after an admin user logs in
+//AdminNewReservations handles showing a dashboard of new reservations in the admin tool
 func (m *Repository) AdminNewReservations(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "admin-new-reservations.page.tmpl", &models.TemplateData{})
+	reservations, err := m.DB.AllNewReservations()
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["reservations"] = reservations
+
+	render.Template(w, r, "admin-new-reservations.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }
 
-//AdminAllReservations handles showing a dashboard after an admin user logs in
+//AdminAllReservations handles showing a dashboard of all reservations in the admin tool
 func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request) {
 	reservations, err := m.DB.AllReservations()
 	if err != nil {
@@ -520,6 +531,12 @@ func (m *Repository) AdminAllReservations(w http.ResponseWriter, r *http.Request
 	render.Template(w, r, "admin-all-reservations.page.tmpl", &models.TemplateData{
 		Data: data,
 	})
+}
+
+//AdminShowReservation does
+func (m *Repository) AdminShowReservation(w http.ResponseWriter, r *http.Request) {
+
+	render.Template(w, r, "admin-reservations-show.page.tmpl", &models.TemplateData{})
 }
 
 //AdminReservationsCalendar handles showing a dashboard after an admin user logs in

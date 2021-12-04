@@ -16,5 +16,5 @@ type AppConfig struct {
 	ErrorLog      *log.Logger
 	InProduction  bool
 	Session       *scs.SessionManager
-	MailChan			chan models.MailData
+	MailChan      chan models.MailData
 }

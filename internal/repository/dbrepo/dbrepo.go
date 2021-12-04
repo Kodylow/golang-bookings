@@ -14,7 +14,7 @@ type postgresDBRepo struct {
 
 type testDBRepo struct {
 	App *config.AppConfig
-	DB *sql.DB
+	DB  *sql.DB
 }
 
 //NewPostgresRepo returns a new postgres db repo

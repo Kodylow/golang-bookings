@@ -44,6 +44,7 @@ type Reservation struct {
 	RoomID    int
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	Processed int
 	Room      Room
 }
 
@@ -64,8 +65,8 @@ type RoomRestriction struct {
 
 //MailData holds an email message
 type MailData struct {
-	To string
-	From string
+	To      string
+	From    string
 	Subject string
 	Content string
 }
