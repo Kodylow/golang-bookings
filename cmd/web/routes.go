@@ -38,8 +38,12 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/user-logout", handlers.Repo.Logout)
 
 	mux.Route("/admin", func(mux chi.Router) {
-		mux.Use(Auth)
+		// mux.Use(Auth) //uncomment to require Auth login
 		mux.Get("/dashboard",handlers.Repo.AdminDashboard)
+
+		mux.Get("/resevations-new", handlers.Repo.AdminNewReservations)
+		mux.Get("/resevations-all", handlers.Repo.AdminAllReservations)
+		mux.Get("/resevations-calendar", handlers.Repo.AdminReservationsCalendar)
 	})
 
 	fileServer := http.FileServer(http.Dir("./static/"))

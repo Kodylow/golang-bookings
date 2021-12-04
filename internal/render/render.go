@@ -8,13 +8,17 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"time"
 
 	"github.com/justinas/nosurf"
 	"github.com/kodylow/golang-bookings/internal/config"
 	"github.com/kodylow/golang-bookings/internal/models"
 )
 
-var functions = template.FuncMap{}
+//specifies special funcs available to golang templates
+var functions = template.FuncMap{
+	"humanDate": HumanDate,
+}
 
 var app *config.AppConfig
 var pathToTemplates = "./templates"
@@ -22,6 +26,11 @@ var pathToTemplates = "./templates"
 // NewRenderer sets the config for the template package
 func NewRenderer(a *config.AppConfig) {
 	app = a
+}
+
+// HumanDate formats time into human readable YYY-MM-DD format
+func HumanDate(t time.Time) string {
+	return t.Format("2006-01-02")
 }
 
 // AddDefaultData adds data for all templates
