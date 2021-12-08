@@ -456,3 +456,5 @@ func (m *postgresDBRepo) AllRooms() ([]models.Room, error) {
 
 	return rooms, nil
 }
+
+func (m *postgresDBRepo) GetRestrictionsForRoomByDay(roomID int, start, end time.Time) ([]models.Restriction, error)
