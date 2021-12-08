@@ -557,8 +557,8 @@ func (m *Repository) AdminShowReservation(w http.ResponseWriter, r *http.Request
 
 	render.Template(w, r, "admin-reservations-show.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
-		Data: data,
-		Form: forms.New(nil),
+		Data:      data,
+		Form:      forms.New(nil),
 	})
 }
 
@@ -569,7 +569,7 @@ func (m *Repository) AdminPostShowReservation(w http.ResponseWriter, r *http.Req
 		helpers.ServerError(w, err)
 		return
 	}
-	
+
 	exploded := strings.Split(r.RequestURI, "/")
 	id, err := strconv.Atoi(exploded[4])
 	if err != nil {
@@ -680,11 +680,11 @@ func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Re
 
 		m.App.Session.Put(r.Context(), fmt.Sprintf("block_map_%d", x.ID), blockMap)
 	}
-	
+
 	render.Template(w, r, "/admin-reservations-calendar.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
-		Data: data,
-		IntMap: intMap,
+		Data:      data,
+		IntMap:    intMap,
 	})
 }
 

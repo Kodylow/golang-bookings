@@ -17,10 +17,10 @@ import (
 
 //specifies special funcs available to golang templates
 var functions = template.FuncMap{
-	"humanDate": HumanDate,
+	"humanDate":  HumanDate,
 	"formatDate": FormatDate,
-	"iterate": Iterate,
-	"add": Add,
+	"iterate":    Iterate,
+	"add":        Add,
 }
 
 var app *config.AppConfig
@@ -94,6 +94,7 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
 	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.tmpl", pathToTemplates))
+
 	if err != nil {
 		return myCache, err
 	}
@@ -133,7 +134,7 @@ func Iterate(count int) []int {
 	var i int
 	var items []int
 	for i = 0; i < count; i++ {
-		items = append(items,i)
+		items = append(items, i)
 	}
 	return items
 }

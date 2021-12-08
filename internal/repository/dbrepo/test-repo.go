@@ -137,7 +137,6 @@ func (m *testDBRepo) GetReservationByID(id int) (models.Reservation, error) {
 	return res, nil
 }
 
-
 //UpdateReservation updates a reservation in the database
 func (m *testDBRepo) UpdateReservation(r models.Reservation) error {
 	return nil

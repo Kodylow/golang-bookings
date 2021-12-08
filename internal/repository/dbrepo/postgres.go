@@ -372,7 +372,6 @@ func (m *postgresDBRepo) GetReservationByID(id int) (models.Reservation, error) 
 	return res, nil
 }
 
-
 //UpdateReservation updates a reservation in the database
 func (m *postgresDBRepo) UpdateReservation(r models.Reservation) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
@@ -450,7 +449,7 @@ func (m *postgresDBRepo) AllRooms() ([]models.Room, error) {
 		}
 		rooms = append(rooms, rm)
 	}
-	
+
 	if err = rows.Err(); err != nil {
 		return rooms, err
 	}
