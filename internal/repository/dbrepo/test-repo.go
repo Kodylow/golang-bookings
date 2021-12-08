@@ -153,8 +153,16 @@ func (m *testDBRepo) UpdateProcessedForReservation(id, processed int) error {
 	return nil
 }
 
+// AllRooms returns a slice of all rooms from the DB.
 func (m *testDBRepo) AllRooms() ([]models.Room, error) {
 	var rooms []models.Room
 
 	return rooms, nil
+}
+
+// GetRestrictionsForRoomByDay returns restrictions from the db.
+func (m *testDBRepo) GetRestrictionsForRoomByDay(roomID int, start, end time.Time) ([]models.RoomRestriction, error) {
+	var restrictions []models.RoomRestriction
+
+	return restrictions, nil
 }
