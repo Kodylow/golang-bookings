@@ -18,19 +18,27 @@ import (
 //specifies special funcs available to golang templates
 var functions = template.FuncMap{
 	"humanDate": HumanDate,
+	"formatDate": FormatDate,
+	"iterate": Iterate,
+	"add": Add,
 }
 
 var app *config.AppConfig
 var pathToTemplates = "./templates"
 
-// NewRenderer sets the config for the template package
+// NewRenderer sets the config for the template package.
 func NewRenderer(a *config.AppConfig) {
 	app = a
 }
 
-// HumanDate formats time into human readable YYY-MM-DD format
+// HumanDate formats time into human readable YYY-MM-DD format.
 func HumanDate(t time.Time) string {
 	return t.Format("2006-01-02")
+}
+
+// FormatDate returns a date formatted by input f.
+func FormatDate(t time.Time, f string) string {
+	return t.Format(f)
 }
 
 // AddDefaultData adds data for all templates
@@ -45,7 +53,7 @@ func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateDa
 	return td
 }
 
-// Template renders templates using html/template
+// Template renders templates using html/template.
 func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) error {
 	var tc map[string]*template.Template
 
@@ -113,4 +121,19 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 	}
 
 	return myCache, nil
+}
+
+// Add returns the sum of two ints.
+func Add(a, b int) int {
+	return a + b
+}
+
+// Iterate returns a slice of ints from 1 to count.
+func Iterate(count int) []int {
+	var i int
+	var items []int
+	for i = 0; i < count; i++ {
+		items = append(items,i)
+	}
+	return items
 }
