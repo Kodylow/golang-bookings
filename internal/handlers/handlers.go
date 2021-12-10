@@ -688,6 +688,62 @@ func (m *Repository) AdminReservationsCalendar(w http.ResponseWriter, r *http.Re
 	})
 }
 
+//AdminPostReservationsCalendar handles posting admin updates to the reservations calendar.
+func (m *Repository) AdminPostReservationsCalendar(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+	year, _ := strconv.Atoi(r.Form.Get("y"))
+	month, _ := strconv.Atoi(r.Form.Get("m"))
+
+	//process blocks
+	rooms, err := m.DB.AllRooms()
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+
+	for _, x := range rooms {
+		// Get the block map from the session
+		curMap := m.App.Session.Get(r.Context(), fmt.Sprintf("block_map_%d", x.ID)).(map[string]int)
+		//Loop through map
+		for name, value := range curMap {
+			if val, ok := curMap[name]; ok {
+				//if entry in map not in posted data & restriction > 0, remove
+				if val > 0 {
+					if !form.Has(fmt.Sprintf("remove_block_%d_%s", x.ID, name)) {
+						err := m.DB.DeleteBlockByID(value)
+						if err != nil {
+							log.Println(err)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// handle new blocks
+	for name := range r.PostForm {
+		if strings.HasPrefix(name, "add_block") {
+			exploded := strings.Split(name, "_")
+			roomID, _ := strconv.Atoi(exploded[2])
+			t, _ := time.Parse("2006-01-2", exploded[3])
+			//insert a new block
+			err := m.DB.InsertBlockForRoom(roomID, t)
+			if err != nil {
+				log.Println(err)
+			}
+		}
+	}
+
+	m.App.Session.Put(r.Context(), "flash", "Changes saved")
+	http.Redirect(w, r, fmt.Sprintf("/admin/reservations-calendar?y=%d&m=%d", year , month), http.StatusSeeOther)
+}
+
 //AdminProcessReservation marks a reservation as processed
 func (m *Repository) AdminProcessReservation(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(chi.URLParam(r, "id"))
