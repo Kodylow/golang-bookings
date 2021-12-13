@@ -46,10 +46,10 @@ func routes(app *config.AppConfig) http.Handler {
 		mux.Get("/resevations-calendar", handlers.Repo.AdminReservationsCalendar)
 		mux.Post("/resevations-calendar", handlers.Repo.AdminPostReservationsCalendar)
 
-		mux.Get("/reservations/{src}/{id}", handlers.Repo.AdminShowReservation)
+		mux.Get("/reservations/{src}/{id}/show", handlers.Repo.AdminShowReservation)
 		mux.Post("/reservations/{src}/{id}", handlers.Repo.AdminPostShowReservation)
-		mux.Get("/process-reservation/{src}/{id}", handlers.Repo.AdminProcessReservation)
-		mux.Get("/delete-reservation/{src}/{id}", handlers.Repo.AdminDeleteReservation)
+		mux.Get("/process-reservation/{src}/{id}/do", handlers.Repo.AdminProcessReservation)
+		mux.Get("/delete-reservation/{src}/{id}/do", handlers.Repo.AdminDeleteReservation)
 	})
 
 	fileServer := http.FileServer(http.Dir("./static/"))

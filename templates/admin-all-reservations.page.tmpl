@@ -28,7 +28,12 @@ All Reservations
   <tr>
     <td>{{.ID}}</td>
     <td>
-      <a href="/admin/reservations/all/{{.ID}}">{{.LastName}}</a>
+      <a
+        href="/admin/reservations/all/{{.ID}}/show?y={{ $curYear }}&m={{
+          $curMonth
+        }}"
+        >{{.LastName}}</a
+      >
     </td>
     <!-- prettier keeps reformatting away the space here, need to find a better update for golang -->
     <td>{{.Room.RoomName}}</td>
